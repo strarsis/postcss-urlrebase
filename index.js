@@ -1,30 +1,44 @@
+const CSSValueParser = require('postcss-value-parser')
+
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = (opts = {}) => {
-  // Work with options here
+module.exports = (opts) => {
 
   return {
-    postcssPlugin: 'postcss-urlrebase',
-    /*
-    Root (root, postcss) {
-      // Transform CSS AST here
-    }
-    */
+    postcssPlugin: 'rebaseUrl',
 
-    /*
-    Declaration (decl, postcss) {
+    Declaration(decl) {
       // The faster way to find Declaration node
-    }
-    */
+      const parsedValue = CSSValueParser(decl.value)
 
-    /*
-    Declaration: {
-      color: (decl, postcss) {
-        // The fastest way find Declaration node if you know property name
+      let valueChanged = false
+      parsedValue.walk(node => {
+        if (node.type !== 'function' || node.value !== 'url') {
+          return
+        }
+
+        const urlVal = node.nodes[0].value
+
+        // bases relative URLs with rootUrl
+        const basedUrl = new URL(urlVal, opts.rootUrl)
+
+        // skip host-relative, already normalized URLs (e.g. `/images/image.jpg`, without `..`s)
+        if (basedUrl.pathname === urlVal) {
+          return false // skip this value
+        }
+
+        node.nodes[0].value = basedUrl.toString()
+        valueChanged = true
+
+        return false // do not walk deeper
+      })
+
+      if (valueChanged) {
+        decl.value = CSSValueParser.stringify(parsedValue)
       }
+
     }
-    */
   }
 }
 
