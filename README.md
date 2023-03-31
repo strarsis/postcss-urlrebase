@@ -40,7 +40,7 @@ and set this plugin in settings.
 ```diff
 module.exports = {
   plugins: [
-+   require('postcss-urlrebase')({ rootUrl: "https://example.com/wp/wp-themes/example/", },
++   require('postcss-urlrebase')({ rootUrl: "https://example.com/wp/wp-themes/example/" },
     require('autoprefixer')
   ]
 }
