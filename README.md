@@ -1,18 +1,22 @@
-# postcss-urlrebase
+# PostCSS URL rebase plugin
 
-[PostCSS] plugin Rebase URLs to a given root URL..
+[PostCSS] plugin for rebasing URLs to a given root URL.
 
 [PostCSS]: https://github.com/postcss/postcss
 
 ```css
 .foo {
   /* Input example */
+  background: url("images/test.jpg");
+  mask: url("/images/layout/shape.svg");
 }
 ```
 
 ```css
 .foo {
   /* Output example */
+  background: url("https://example.com/images/test.jpg");
+  mask: url("/images/layout/shape.svg");
 }
 ```
 
@@ -36,10 +40,19 @@ and set this plugin in settings.
 ```diff
 module.exports = {
   plugins: [
-+   require('postcss-urlrebase'),
++   require('postcss-urlrebase')({ rootUrl: "https://example.com/wp/wp-themes/example/", },
     require('autoprefixer')
   ]
 }
 ```
+
+### Plugin options
+
+#### `rootUrl` (_required_)
+The root URL to which the existing URLs should be based to.
+
+#### `skipHostRelativeUrls` (optional (default: `true`))
+Should already host-relative URLs (as `/images/test.jpg` (URL starts with `/`)) be skipped?
+
 
 [official docs]: https://github.com/postcss/postcss#usage
