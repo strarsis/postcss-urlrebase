@@ -5,6 +5,11 @@ const CSSValueParser = require('postcss-value-parser')
  */
 module.exports = (opts) => {
 
+  const DEFAULTS = {
+    skipHostRelativeUrls: true,
+  }
+  const config = Object.assign(DEFAULTS, opts)
+
   return {
     postcssPlugin: 'rebaseUrl',
 
@@ -24,7 +29,7 @@ module.exports = (opts) => {
         const basedUrl = new URL(urlVal, opts.rootUrl)
 
         // skip host-relative, already normalized URLs (e.g. `/images/image.jpg`, without `..`s)
-        if (basedUrl.pathname === urlVal) {
+        if ((basedUrl.pathname === urlVal) && config.skipHostRelativeUrls) {
           return false // skip this value
         }
 

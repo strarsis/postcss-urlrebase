@@ -17,10 +17,26 @@ it('rewrites simple URL', async () => {
   )
 })
 
-it('skips host-relative URLs', async () => {
+it('skips host-relative URLs (enabled by default)', async () => {
   await run(
     `.test{ background: url("/images/test.jpg"); }`,
     `.test{ background: url("/images/test.jpg"); }`,
+    { rootUrl: 'https://example.com' }
+  )
+})
+
+it('does not skip host-relative URLs when disabled', async () => {
+  await run(
+    `.test{ background: url("/images/test.jpg"); }`,
+    `.test{ background: url("https://example.com/images/test.jpg"); }`,
+    { rootUrl: 'https://example.com', skipHostRelativeUrls: false, }
+  )
+})
+
+it('skips already absolute URLs', async () => {
+  await run(
+    `.test{ background: url("https://example.com/images/test.jpg"); }`,
+    `.test{ background: url("https://example.com/images/test.jpg"); }`,
     { rootUrl: 'https://example.com' }
   )
 })
