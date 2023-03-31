@@ -51,8 +51,8 @@ it('rewrites complex relative URLs', async () => {
 
 it('rewrites multiple simple URLs in one declaration', async () => {
   await run(
-    `.test{ background: url("images/test.jpg"); mask: url("layout/shape.svg") center/contain no-repeat; }`,
-    `.test{ background: url("https://example.com/images/test.jpg"); mask: url("https://example.com/layout/shape.svg") center/contain no-repeat; }`,
+    `.test{ background: url("images/test.jpg"); mask: url("images/layout/shape.svg") center/contain no-repeat; }`,
+    `.test{ background: url("https://example.com/images/test.jpg"); mask: url("https://example.com/images/layout/shape.svg") center/contain no-repeat; }`,
     { rootUrl: 'https://example.com' }
   )
 })
