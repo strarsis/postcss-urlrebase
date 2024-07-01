@@ -1,6 +1,5 @@
 declare module 'rebaseUrl' {
 	import { PluginCreator } from 'postcss';
-	import { URL } from 'url';
 
 	interface RebaseUrlOptions {
 		/**
