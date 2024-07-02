@@ -2,6 +2,9 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## v1.4.0
+- Remove unnecessary `url` import.
+
 ## v1.3.0
 - Published `npm` package using clean script.
 
